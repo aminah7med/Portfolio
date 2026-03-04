@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Amin Ahmed Abdelmoaty - Aspiring Data Engineer & Machine Learning Specialist Portfolio">
+    <meta name="keywords" content="data engineering, machine learning, AI, Python, SQL, embedded systems">
+    <meta name="author" content="Amin Ahmed Abdelmoaty">
+    <title>Amin Ahmed Abdelmoaty | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #1a1512;
+            --secondary-bg: #2d241e;
+            --accent-gold: #ab8d0c;
+            --warm-beige: #e5d3b3;
+            --text-main: #f8f5f0;
+            --text-dim: #a89a8e;
+            --shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        [data-theme="light"] {
+            --primary-bg: #f9f9f9;
+            --secondary-bg: #ffffff;
+            --accent-gold: #ab8d0c;
+            --warm-beige: #5c4b38;
+            --text-main: #333333;
+            --text-dim: #666666;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+        body { background:var(--primary-bg); color:var(--text-main); line-height:1.6; scroll-behavior:smooth; }
+
+        nav {
+            background:rgba(26,21,18,0.95); padding:1.2rem 8%; position:fixed; width:100%; top:0; z-index:1000;
+            display:flex; justify-content:space-between; align-items:center; backdrop-filter:blur(12px);
+        }
+        .logo { font-weight:700; font-size:1.3rem; color:var(--accent-gold); }
+        nav ul { display:flex; list-style:none; gap:2rem; }
+        nav ul li a { color:var(--text-main); text-decoration:none; font-weight:500; transition:0.3s; }
+        nav ul li a:hover, nav ul li a.active { color:var(--accent-gold); }
+        #mode-toggle { background:none; border:none; color:var(--text-main); font-size:1.3rem; cursor:pointer; }
+
+        .hero {
+            min-height:100vh; display:flex; align-items:center; padding:0 10%; background:radial-gradient(circle at 20% 50%, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+        }
+        .hero-content { flex:1.4; }
+        .hero h1 { font-size:clamp(2.8rem,6vw,4rem); font-weight:800; color:var(--accent-gold); line-height:1.1; }
+        .hero h2 { font-size:clamp(1.4rem,3.5vw,1.8rem); color:var(--warm-beige); margin:1rem 0 1.5rem; }
+        .hero p { font-size:1.1rem; color:var(--text-dim); max-width:620px; }
+
+        .hero-image-container { position:relative; width:360px; height:360px; }
+        .hero-image {
+            width:100%; height:100%; border-radius:50%; overflow:hidden; border:8px solid var(--accent-gold);
+            box-shadow:var(--shadow);
+        }
+        .hero-image img { width:100%; height:100%; object-fit:cover; }
+
+        .photo-socials { margin-top:2rem; display:flex; gap:1.2rem; }
+        .photo-socials a {
+            width:48px; height:48px; background:var(--secondary-bg); color:var(--warm-beige);
+            border:2px solid var(--accent-gold); border-radius:12px;
+            display:flex; align-items:center; justify-content:center; font-size:1.3rem;
+            transition:0.3s;
+        }
+        .photo-socials a:hover { background:var(--accent-gold); color:#1a1512; transform:translateY(-6px); }
+
+        .btn {
+            margin-top:2rem; background:var(--accent-gold); color:#1a1512; padding:1rem 3rem;
+            border-radius:50px; font-weight:700; text-decoration:none; display:inline-block;
+            box-shadow:var(--shadow); transition:0.3s;
+        }
+        .btn:hover { transform:translateY(-4px); }
+
+        section { padding:8rem 10%; }
+        h2 { font-size:2.4rem; text-align:center; margin-bottom:3rem; }
+        h2 span { color:var(--accent-gold); border-bottom:3px solid var(--accent-gold); padding-bottom:6px; }
+
+        .projects-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(340px,1fr)); gap:2rem;
+        }
+        .project-card {
+            background:var(--secondary-bg); border-radius:20px; overflow:hidden; box-shadow:var(--shadow);
+            transition:0.4s; border:1px solid rgba(171,141,12,0.2);
+        }
+        .project-card:hover { transform:translateY(-12px); box-shadow:0 20px 40px rgba(0,0,0,0.5); }
+        .project-card img { width:100%; height:220px; object-fit:cover; }
+        .project-content { padding:1.8rem; }
+        .project-content h3 { color:var(--accent-gold); margin-bottom:0.8rem; font-size:1.35rem; }
+        .project-tags { display:flex; flex-wrap:wrap; gap:0.5rem; margin:1rem 0; }
+        .project-tags span {
+            background:rgba(171,141,12,0.15); color:var(--accent-gold); padding:5px 14px;
+            border-radius:30px; font-size:0.8rem; border:1px solid var(--accent-gold);
+        }
+        .project-links a {
+            color:var(--accent-gold); margin-right:1rem; text-decoration:underline; font-weight:500;
+        }
+
+        .contact-form {
+            max-width:620px; margin:0 auto; background:var(--secondary-bg); padding:2.5rem;
+            border-radius:20px; box-shadow:var(--shadow);
+        }
+        .contact-form input, .contact-form textarea {
+            width:100%; padding:1rem; margin-bottom:1.2rem; background:var(--primary-bg);
+            border:1px solid var(--accent-gold); border-radius:10px; color:var(--text-main);
+        }
+        .contact-form button {
+            width:100%; padding:1.1rem; background:var(--accent-gold); color:#1a1512;
+            border:none; border-radius:50px; font-weight:700; font-size:1.1rem; cursor:pointer;
+        }
+
+        footer { text-align:center; padding:2rem; color:var(--text-dim); font-size:0.95rem; }
+    </style>
+</head>
+<body data-theme="dark">
+    <nav>
+        <div class="logo">Amin Ahmed</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#resume">Resume</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button id="mode-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Amin Ahmed Abdelmoaty</h1>
+            <h2>Aspiring Data Engineer & Machine Learning Specialist</h2>
+            <p>Motivated third-year Information Technology & Computer Science student at Sinai University. Experienced in building end-to-end data pipelines, machine learning models, embedded systems, and full-stack database applications using Python, SQL, and modern tools.</p>
+            <a href="#projects" class="btn">View My Projects</a>
+        </div>
+        <div class="hero-image-container">
+            <div class="hero-image">
+                <img src="assets/images/profile.jpg" alt="Amin Ahmed Abdelmoaty Profile Photo">
+            </div>
+            <div class="photo-socials">
+                <a href="https://www.linkedin.com/in/aminah7med/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/aminah7med" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="mailto:a.ahmed2585@su.edu.eg"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>About <span>Me</span></h2>
+        <p style="max-width:800px;margin:0 auto;text-align:center;font-size:1.1rem;color:var(--text-dim);">
+            Third-year IT & Computer Science student passionate about turning raw data into powerful insights. 
+            Currently part of the Microsoft DEPI Scholarship program focusing on Data Engineering and AI.
+        </p>
+    </section>
+
+    <section id="skills">
+        <h2>Technical <span>Stack</span></h2>
+        <div class="projects-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+            <div class="project-card" style="padding:1.8rem;text-align:center;"><h3 style="color:var(--accent-gold);">Programming Languages</h3><p>Python • C++ • C# • SQL • Embedded C</p></div>
+            <div class="project-card" style="padding:1.8rem;text-align:center;"><h3 style="color:var(--accent-gold);">Data Engineering</h3><p>ETL • Apache Airflow • PostgreSQL • Docker</p></div>
+            <div class="project-card" style="padding:1.8rem;text-align:center;"><h3 style="color:var(--accent-gold);">Machine Learning</h3><p>XGBoost • Feature Engineering • Model Evaluation</p></div>
+            <div class="project-card" style="padding:1.8rem;text-align:center;"><h3 style="color:var(--accent-gold);">Embedded Systems</h3><p>ATmega32A • Sensors • Servo Motors • LCD</p></div>
+        </div>
+    </section>
+
+    <section id="projects" style="background:#120e0c;">
+        <h2>Projects</h2>
+        <div class="projects-grid">
+
+            <div class="project-card">
+                <img src="assets/images/project-weather.png" alt="Weather Prediction System">
+                <div class="project-content">
+                    <h3>Weather Prediction Pipeline</h3>
+                    <div class="project-tags"><span>Python</span><span>XGBoost</span><span>Airflow</span><span>PostgreSQL</span><span>Docker</span></div>
+                    <p>End-to-end data pipeline for weather forecasting with data cleaning, feature engineering, and XGBoost model (MAE 1.85°C).</p>
+                    <div class="project-links"><a href="https://github.com/aminah7med/Weather-Prediction-System" target="_blank">GitHub</a></div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="assets/images/project-law-office.png" alt="Law Office Management System">
+                <div class="project-content">
+                    <h3>Law Office Management System</h3>
+                    <div class="project-tags"><span>C#</span><span>WinForms</span><span>SQL Server</span><span>ADO.NET</span></div>
+                    <p>Full-stack desktop application with normalized database, CRUD operations, invoicing and advanced search.</p>
+                    <div class="project-links"><a href="https://github.com/aminah7med/Law-Office-Management-System" target="_blank">GitHub</a></div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="assets/images/project-smart-garage.png" alt="Smart Garage System">
+                <div class="project-content">
+                    <h3>Smart Garage System</h3>
+                    <div class="project-tags"><span>Embedded C</span><span>ATmega32A</span><span>HC-SR04</span><span>MQ-5</span></div>
+                    <p>Automated garage system with ultrasonic detection, gas monitoring, servo gates and real-time LCD (A+ grade).</p>
+                    <div class="project-links">
+                        <a href="https://github.com/aminah7med/Smart_Garage_System" target="_blank">GitHub</a> |
+                        <a href="https://www.linkedin.com/posts/aminah7med_our-project-moments-ugcPost-7328049185646108673-Ve27" target="_blank">LinkedIn Post</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="assets/images/project-hr-database.png" alt="HR Management System Database Design">
+                <div class="project-content">
+                    <h3>HR Management System Database Design</h3>
+                    <div class="project-tags"><span>SQL</span><span>Normalization</span><span>Relational Schema</span></div>
+                    <p>Complete relational database schema for managing employees, departments, projects and work assignments.</p>
+                    <div class="project-links"><a href="https://github.com/aminah7med/HR-Management-System-Database-Design" target="_blank">GitHub</a></div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="assets/images/project-techcourses.png" alt="TechCourses Website">
+                <div class="project-content">
+                    <h3>TechCourses Website</h3>
+                    <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                    <p>Responsive multi-page website for organizing learning resources with dynamic content and validation.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="resume">
+        <h2>Education & <span>Certifications</span></h2>
+        <p style="text-align:center;color:var(--text-dim);max-width:800px;margin:0 auto;">
+            B.Sc. Information Technology & Computer Science — Sinai University (2023-2027)<br>
+            Microsoft DEPI Data Engineer Scholarship (2025-Present) + NVIDIA & DataCamp Certifications
+        </p>
+    </section>
+
+    <section id="contact">
+        <h2>Get In <span>Touch</span></h2>
+        <div class="contact-form">
+            <form id="contactForm">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="text" placeholder="Subject" required>
+                <textarea rows="6" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+        <div style="text-align:center;margin-top:2rem;">
+            <p>Email: <a href="mailto:a.ahmed2585@su.edu.eg">a.ahmed2585@su.edu.eg</a></p>
+            <p>Phone: +20 112 920 5443</p>
+            <p>Location: Giza, Egypt</p>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Amin Ahmed Abdelmoaty
+    </footer>
+
+    <script>
+        const toggle = document.getElementById('mode-toggle');
+        const icon = toggle.querySelector('i');
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            icon.classList.toggle('fa-moon', theme==='dark');
+            icon.classList.toggle('fa-sun', theme==='light');
+        }
+        toggle.addEventListener('click', () => {
+            const current = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            setTheme(current);
+        });
+        setTheme(localStorage.getItem('theme') || 'dark');
+
+        document.getElementById('contactForm').addEventListener('submit', e => {
+            e.preventDefault();
+            alert('✅ Message sent successfully! (Demo)');
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>
