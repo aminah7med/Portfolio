@@ -182,15 +182,30 @@ nav.scrolled { box-shadow:0 4px 30px rgba(0,0,0,0.5); }
 .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
 .nav-hamburger span { display:block; width:24px; height:2px; background:var(--txt2); transition:.3s; }
 
+/* Nav items need more breathing room than the general 900px content breakpoint
+   allows — switch to the hamburger earlier to avoid the logo/links colliding. */
+@media (max-width:1100px) {
+  .nav-links, .nav-cta { display:none; }
+  .nav-hamburger { display:flex; }
+}
+
 /* ── Hero ────────────────────────────────────────────────── */
 #hero {
   position:relative; z-index:1;
   min-height:100vh;
   display:flex; align-items:center;
   padding:8rem 6% 6rem;
-  gap:4rem;
 }
-.hero-left { flex:1.2; max-width:650px; }
+.hero-inner {
+  width:100%;
+  max-width:1360px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns: minmax(0,1fr) minmax(240px, 420px);
+  align-items:center;
+  gap:clamp(2rem, 6vw, 5rem);
+}
+.hero-left { min-width:0; }
 .hero-tag {
   display:inline-flex; align-items:center; gap:.5rem;
   font-family:var(--font-mono);
@@ -308,13 +323,14 @@ nav.scrolled { box-shadow:0 4px 30px rgba(0,0,0,0.5); }
 }
 .hero-socials a:hover { border-color:var(--cyan); color:var(--cyan); background:rgba(0,212,255,0.07); transform:translateY(-3px); }
 .hero-right {
-  flex-shrink:0;
-  position:relative;
+  display:flex; flex-direction:column; align-items:center;
+  width:100%;
   animation:fadeUp .6s .2s ease both;
 }
 .hero-photo-wrap {
+  --photo-size: clamp(180px, 24vw, 320px);
   position:relative;
-  width:320px; height:320px;
+  width:var(--photo-size); height:var(--photo-size);
 }
 .hero-photo-ring {
   position:absolute; inset:-8px;
@@ -330,30 +346,17 @@ nav.scrolled { box-shadow:0 4px 30px rgba(0,0,0,0.5); }
 }
 .hero-photo {
   position:relative; z-index:1;
-  width:320px; height:320px;
+  width:var(--photo-size); height:var(--photo-size);
   border-radius:50%;
   overflow:hidden;
   border:4px solid var(--bg0);
   box-shadow:var(--glow), 0 0 60px rgba(240,192,64,0.1);
 }
 .hero-photo img { width:100%; height:100%; object-fit:cover; object-position:center top; }
-.hero-badge {
-  position:absolute;
-  bottom:10px; right:-10px;
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:.6rem 1rem;
-  font-family:var(--font-mono);
-  font-size:.7rem;
-  color:var(--cyan);
-  white-space:nowrap;
-  box-shadow:var(--glow);
-}
-.hero-badge strong { color:var(--gold); display:block; font-size:.9rem; }
 .hero-stats {
-  margin-top:2rem;
-  display:flex; gap:1.5rem;
+  margin-top:clamp(1.4rem, 3vw, 2rem);
+  display:flex; flex-wrap:wrap; justify-content:center;
+  gap:clamp(1rem, 3vw, 1.5rem);
 }
 .stat { text-align:center; }
 .stat-num {
@@ -665,10 +668,10 @@ footer {
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 900px) {
-  #hero { flex-direction:column-reverse; gap:2rem; padding-top:7rem; text-align:center; }
+  #hero { padding-top:7rem; }
+  .hero-inner { grid-template-columns:1fr; gap:2rem; text-align:center; }
+  .hero-right { order:-1; }
   .hero-btns, .hero-socials { justify-content:center; }
-  .hero-photo-wrap, .hero-photo { width:240px; height:240px; }
-  .hero-badge { right:0; }
   .hero-stats { justify-content:center; }
   .about-grid, .contact-wrap, .edu-grid { grid-template-columns:1fr; }
   .projects-grid { grid-template-columns:1fr; }
@@ -682,7 +685,7 @@ footer {
    PROJECTS.CSS v2 — premium engineering case-study cards
    ══════════════════════════════════════════════════════════════ */
 
-#projects { background:var(--bg1); }
+#projects { background:var(--bg1); max-width:1600px; margin:0 auto; }
 
 .projects-filter {
   display:flex; flex-wrap:wrap; gap:.6rem;
@@ -701,11 +704,12 @@ footer {
   transition:all .25s cubic-bezier(.2,.8,.2,1);
 }
 .filter-btn:hover { border-color:var(--cyan); color:var(--cyan); transform:translateY(-2px); }
+.filter-btn:focus-visible { outline:2px solid var(--cyan); outline-offset:2px; }
 .filter-btn.active { background:var(--cyan); color:var(--bg0); border-color:var(--cyan); font-weight:600; box-shadow:0 6px 18px rgba(0,212,255,.25); }
 
 .projects-grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(440px,1fr));
+  grid-template-columns:repeat(auto-fit, minmax(min(440px, 100%), 1fr));
   gap:2.8rem;
 }
 
@@ -784,9 +788,14 @@ html[data-theme="light"] .project-card-inner {
   backdrop-filter:blur(8px);
 }
 .proj-gallery:hover .gallery-arrow { opacity:1; visibility:visible; }
+.gallery-arrow:focus-visible { opacity:1; visibility:visible; outline:2px solid var(--cyan); outline-offset:2px; }
 .gallery-arrow.prev { left:.8rem; }
 .gallery-arrow.next { right:.8rem; }
 .gallery-arrow:hover { background:var(--cyan); border-color:var(--cyan); color:var(--bg0); transform:translateY(-50%) scale(1.08); }
+/* Touch devices have no hover — keep controls reachable */
+@media (hover:none) {
+  .gallery-arrow { opacity:1; visibility:visible; background:rgba(3,8,15,.6); }
+}
 
 /* Nav dots */
 .gallery-dots {
@@ -849,7 +858,12 @@ html[data-theme="light"] .project-card-inner {
   color:var(--txt2);
   line-height:1.8;
   margin-bottom:1.7rem;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  overflow:hidden;
 }
+.project-card.featured .proj-body p.proj-desc { -webkit-line-clamp:4; }
 
 /* Engineering Details */
 .proj-eng-header {
@@ -923,6 +937,7 @@ html[data-theme="light"] .project-card-inner {
   transition:all .28s cubic-bezier(.2,.8,.2,1);
   white-space:nowrap;
 }
+.proj-cta a:focus-visible { outline:2px solid var(--cyan); outline-offset:2px; }
 .proj-cta .cta-primary { background:var(--cyan); color:var(--bg0); }
 .proj-cta .cta-primary:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(0,212,255,.35); }
 .proj-cta .cta-secondary { border:1px solid rgba(240,192,64,.4); color:var(--gold); background:rgba(240,192,64,.05); }
@@ -1264,6 +1279,25 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
 
 /* Magnetic buttons (cursor.js toggles this state via inline transform, no extra class needed) */
 [data-magnetic] { will-change:transform; }
+
+/* ── Reduced motion: keep the site functional, drop decorative motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  .proj-gallery .slide img { animation:none !important; }
+  .hero-photo-ring { animation:none !important; }
+  .project-card:hover .project-card-inner,
+  .skill-card:hover,
+  .edu-card:hover,
+  .btn-primary:hover, .btn-outline:hover, .btn-ghost:hover,
+  .proj-cta a:hover, .filter-btn:hover, .gallery-arrow:hover {
+    transform:none !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -1309,6 +1343,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
 
   <!-- ── HERO ─────────────────────────────────────────────────── -->
   <section id="hero">
+    <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-tag">Available for Opportunities</div>
       <h1 class="hero-name">
@@ -1343,9 +1378,6 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
           <img src="assets/images/profile.jpg" alt="Amin Ahmed" />
         </div>
       </div>
-      <div class="hero-badge">
-        <strong>6+</strong> Projects Shipped
-      </div>
       <div class="hero-stats">
         <div class="stat">
           <div class="stat-num" data-count="3">0</div>
@@ -1360,6 +1392,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
           <div class="stat-label">Embedded Grade</div>
         </div>
       </div>
+    </div>
     </div>
   </section>
   <!-- ── ABOUT ─────────────────────────────────────────────────── -->
@@ -1537,7 +1570,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
       <!-- OnlineShop — Featured & New -->
       <div class="project-card featured reveal" data-tags="data,fullstack">
         <div class="project-card-inner">
-          <div class="proj-gallery" data-frames="assets/images/frames/project-weather-1.jpg,assets/images/frames/project-weather-2.jpg,assets/images/frames/project-weather-3.jpg" data-filter-style="hue-rotate(160deg) saturate(0.8)">
+          <div class="proj-gallery" data-frames="assets/images/frames/project-weather-1.jpg,assets/images/frames/project-weather-2.jpg,assets/images/frames/project-weather-3.jpg" data-filter-style="hue-rotate(160deg) saturate(0.8)" data-name="OnlineShop data pipeline">
             <div class="proj-img-overlay"></div>
           </div>
           <div class="proj-num-badge">01 / FEATURED</div>
@@ -1585,7 +1618,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
       <!-- Weather -->
       <div class="project-card reveal" data-tags="data,ml">
         <div class="project-card-inner">
-          <div class="proj-gallery" data-frames="assets/images/frames/project-weather-1.jpg,assets/images/frames/project-weather-2.jpg,assets/images/frames/project-weather-3.jpg">
+          <div class="proj-gallery" data-frames="assets/images/frames/project-weather-1.jpg,assets/images/frames/project-weather-2.jpg,assets/images/frames/project-weather-3.jpg" data-name="Weather Prediction Pipeline">
             <div class="proj-img-overlay"></div>
           </div>
           <div class="proj-num-badge">02</div>
@@ -1627,7 +1660,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
       <!-- Law Office -->
       <div class="project-card reveal" data-tags="fullstack">
         <div class="project-card-inner">
-          <div class="proj-gallery" data-frames="assets/images/frames/project-law-office-1.jpg,assets/images/frames/project-law-office-2.jpg,assets/images/frames/project-law-office-3.jpg">
+          <div class="proj-gallery" data-frames="assets/images/frames/project-law-office-1.jpg,assets/images/frames/project-law-office-2.jpg,assets/images/frames/project-law-office-3.jpg" data-name="Law Office Management System">
             <div class="proj-img-overlay"></div>
           </div>
           <div class="proj-num-badge">03</div>
@@ -1667,7 +1700,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
       <!-- Smart Garage -->
       <div class="project-card reveal" data-tags="embedded">
         <div class="project-card-inner">
-          <div class="proj-gallery" data-frames="assets/images/frames/project-smart-garage-1.jpg,assets/images/frames/project-smart-garage-2.jpg,assets/images/frames/project-smart-garage-3.jpg">
+          <div class="proj-gallery" data-frames="assets/images/frames/project-smart-garage-1.jpg,assets/images/frames/project-smart-garage-2.jpg,assets/images/frames/project-smart-garage-3.jpg" data-name="Smart Garage System">
             <div class="proj-img-overlay"></div>
           </div>
           <div class="proj-num-badge">04</div>
@@ -1709,7 +1742,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
       <!-- HR Database -->
       <div class="project-card reveal" data-tags="data">
         <div class="project-card-inner">
-          <div class="proj-gallery" data-frames="assets/images/frames/project-hr-database-1.jpg,assets/images/frames/project-hr-database-2.jpg,assets/images/frames/project-hr-database-3.jpg">
+          <div class="proj-gallery" data-frames="assets/images/frames/project-hr-database-1.jpg,assets/images/frames/project-hr-database-2.jpg,assets/images/frames/project-hr-database-3.jpg" data-name="HR Management System Database">
             <div class="proj-img-overlay"></div>
           </div>
           <div class="proj-num-badge">05</div>
@@ -1748,7 +1781,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
       <!-- TechCourses -->
       <div class="project-card reveal" data-tags="web">
         <div class="project-card-inner">
-          <div class="proj-gallery" data-frames="assets/images/frames/project-techcourses-1.jpg,assets/images/frames/project-techcourses-2.jpg,assets/images/frames/project-techcourses-3.jpg">
+          <div class="proj-gallery" data-frames="assets/images/frames/project-techcourses-1.jpg,assets/images/frames/project-techcourses-2.jpg,assets/images/frames/project-techcourses-3.jpg" data-name="TechCourses Website">
             <div class="proj-img-overlay"></div>
           </div>
           <div class="proj-num-badge">06</div>
@@ -2167,6 +2200,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
       const frames = (gal.dataset.frames||'').split(',').map(s=>s.trim()).filter(Boolean);
       if(!frames.length) return;
       const filterStyle = gal.dataset.filterStyle || '';
+      const projName = gal.dataset.name || 'Project';
       const overlay = gal.querySelector('.proj-img-overlay');
       let idx = 0, timer = null, paused = false;
 
@@ -2176,7 +2210,7 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
         s.className = 'slide' + (isGif ? ' gif' : '') + (i===0 ? ' active' : '');
         const img = document.createElement('img');
         img.src = src;
-        img.alt = 'Project screenshot ' + (i+1);
+        img.alt = projName + ' — screenshot ' + (i+1) + ' of ' + frames.length;
         img.loading = 'lazy';
         if(filterStyle) img.style.filter = filterStyle;
         s.appendChild(img);
@@ -2200,12 +2234,12 @@ html[data-theme="light"] .form-group input, html[data-theme="light"] .form-group
         prevBtn.type = 'button';
         prevBtn.className = 'gallery-arrow prev';
         prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        prevBtn.setAttribute('aria-label','Previous image');
+        prevBtn.setAttribute('aria-label','Previous image — ' + projName);
         const nextBtn = document.createElement('button');
         nextBtn.type = 'button';
         nextBtn.className = 'gallery-arrow next';
         nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        nextBtn.setAttribute('aria-label','Next image');
+        nextBtn.setAttribute('aria-label','Next image — ' + projName);
         gal.appendChild(prevBtn);
         gal.appendChild(nextBtn);
         prevBtn.addEventListener('click', e=>{ e.stopPropagation(); goTo(idx-1); resetTimer(); });
